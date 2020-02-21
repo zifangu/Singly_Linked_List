@@ -51,15 +51,20 @@ void append_int_list(struct IntList *int_list_ptr, int value) {
 
     // Add a new node to the end of the chain, updating the tail node ptr.
     if (int_list_ptr->head_node_ptr == NULL) {
+        printf("%s%d\n", "value: ", value );
         // Appending to an empty list, a special case because the last
         // node also becomes the first node.
-        int_list_ptr->head_node_ptr = new_node(value, NULL);
-
-        int_list_ptr->tail_node_ptr = int_list_ptr->tail_node_ptr;
+        struct Node *head = NULL;
+        head = new_node(value, head);
+        int_list_ptr->head_node_ptr = head;
+        printf("%s%d\n", "ptr value: ", int_list_ptr->head_node_ptr->value);
+        int_list_ptr->tail_node_ptr = int_list_ptr->head_node_ptr;
     }
     else {
         // Appending to a non-empty list.
-        int_list_ptr->tail_node_ptr->next_node_ptr = new_node(value, NULL);
+        struct Node* node = NULL;
+        node = new_node(value, node);
+        int_list_ptr->tail_node_ptr->next_node_ptr = node;
         int_list_ptr->tail_node_ptr = int_list_ptr->tail_node_ptr->next_node_ptr;
     }
     ++int_list_ptr->size;
@@ -139,10 +144,10 @@ struct Node *locate_kth_node(const struct IntList *int_list_ptr, unsigned int k)
 static struct Node *new_node(int value, struct Node *next_node_ptr) {
     // Get a new node from the heap and set its value and next node pointer.
     struct Node *node_ptr = (struct Node *)malloc(sizeof(struct Node));
-    next_node_ptr->value = value;
+    node_ptr->value = value;
     // ????? Not sure on this one
     // TODO
-    next_node_ptr->next_node_ptr = NULL;
+    node_ptr->next_node_ptr = next_node_ptr;
     return node_ptr;
 }
 

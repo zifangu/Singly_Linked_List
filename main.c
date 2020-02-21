@@ -56,11 +56,13 @@ int main(int argc, const char * argv[]) {
     printf("    insert_int_list_item_at(%p, 7, 31)\n", &my_int_list);
     insert_int_list_item_at(&my_int_list, 7, 31);
     check_list("After inserting items", &my_int_list, items2, 8);
+    printf("%s", "check1\n");
     print_list(&my_int_list);
-
+    printf("%s", "check\n");
     // Insert items into an empty list
     struct IntList int_list3;
     int items3[] = {100, 200};
+    printf("check\n");
     init_int_list(&int_list3);
     printf("Inserting 100 into an empty list at index position 0.\n");
     insert_int_list_item_at(&int_list3, 0, 100);
