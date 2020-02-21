@@ -116,12 +116,6 @@ void insert_int_list_item_at(struct IntList *int_list_ptr, unsigned int index, i
         struct Node* temp = new_node(value, locate_kth_node(int_list_ptr, index));
         temp->next_node_ptr = locate_kth_node(int_list_ptr, index);
         locate_kth_node(int_list_ptr, index - 1)->next_node_ptr = temp;
-
-        // struct Node* fresh_node = new_node(value, temp);
-        int_list_ptr->size++;
-
-
-
     }
     ++int_list_ptr->size;
 }
