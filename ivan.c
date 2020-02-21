@@ -1,5 +1,5 @@
 //
-// Created by Ivan. Gu on 2/20/20.
+// Created by Bennett Joyce on 2/20/20.
 //
 
 //
@@ -43,6 +43,7 @@ void destroy_int_list(struct IntList *int_list_ptr) {
     int_list_ptr->head_node_ptr = NULL;
     int_list_ptr->tail_node_ptr = NULL;
     int_list_ptr->size = 0;
+    free(temp);
 
     // TODO
 
@@ -104,7 +105,9 @@ void remove_list_item_at(struct IntList *int_list_ptr, unsigned int index) {
         free(first_node_ptr);
     }
     else {
-        ++int_list_ptr->size;
+        struct Node *temp = locate_kth_node(int_list_ptr, index);
+        locate_kth_node(int_list_ptr, index-1)->next_node_ptr = temp->next_node_ptr;
+        free(temp);
     }
     --int_list_ptr->size;
 }
@@ -118,6 +121,7 @@ void insert_int_list_item_at(struct IntList *int_list_ptr, unsigned int index, i
         // insert at the front
         struct Node *node_ptr = new_node(value, int_list_ptr->head_node_ptr);
         int_list_ptr->head_node_ptr = node_ptr;
+//        int_list_ptr->tail_node_ptr = node_ptr;
     }
     else {
         struct Node* temp = new_node(value, locate_kth_node(int_list_ptr, index));
@@ -139,7 +143,12 @@ struct Node *locate_kth_node(const struct IntList *int_list_ptr, unsigned int k)
     for (unsigned int i = 0; i < k; i++) {
         node_ptr = node_ptr->next_node_ptr;
     }
-    return node_ptr;
+    if(node_ptr != NULL) {
+        return node_ptr;
+    } else {
+
+    }
+
     // TODO
 }
 
@@ -158,6 +167,7 @@ static struct Node *new_node(int value, struct Node *next_node_ptr) {
 
 
 static void print_int_list(struct IntList *int_list_ptr) {
+    printf("HERE");
     printf("IntList{size: %u, head_node_ptr: %p, tail_node_ptr: %p}\n", int_list_ptr->size,
            int_list_ptr->head_node_ptr, int_list_ptr->tail_node_ptr);
     for (struct Node *p = int_list_ptr->head_node_ptr; p ; p = p->next_node_ptr) {
