@@ -1,5 +1,5 @@
 //
-// Created by Ivan Gu on 2/20/20.
+// Created by Ivan Gu and Bennett Joyce on 2/20/20.
 //
 
 #include <stdlib.h>
