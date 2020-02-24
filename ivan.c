@@ -1,9 +1,5 @@
 //
-// Created by Bennett Joyce on 2/20/20.
-//
-
-//
-// Created by Sykes, David A on 2/16/20.
+// Created by Ivan Gu on 2/20/20.
 //
 
 #include <stdlib.h>
@@ -46,26 +42,19 @@ void destroy_int_list(struct IntList *int_list_ptr) {
         free(temp);
     }
     int_list_ptr->tail_node_ptr = NULL;
-
-    // TODO
-
-
-
 }
 
 
 void append_int_list(struct IntList *int_list_ptr, int value) {
-    // value off by 1. fresh_node->value is not updated.
-
     // Add a new node to the end of the chain, updating the tail node ptr.
     if (int_list_ptr->head_node_ptr == NULL) {
-        printf("%s%d\n", "value: ", value );
+//        printf("%s%d\n", "value: ", value );
         // Appending to an empty list, a special case because the last
         // node also becomes the first node.
         struct Node *head = NULL;
         head = new_node(value, head);
         int_list_ptr->head_node_ptr = head;
-        printf("%s%d\n", "ptr value: ", int_list_ptr->head_node_ptr->value);
+//        printf("%s%d\n", "ptr value: ", int_list_ptr->head_node_ptr->value);
         int_list_ptr->tail_node_ptr = int_list_ptr->head_node_ptr;
     }
     else {
@@ -76,7 +65,6 @@ void append_int_list(struct IntList *int_list_ptr, int value) {
         int_list_ptr->tail_node_ptr = int_list_ptr->tail_node_ptr->next_node_ptr;
     }
     ++int_list_ptr->size;
-    // TODO
 }
 
 
@@ -106,6 +94,7 @@ void remove_list_item_at(struct IntList *int_list_ptr, unsigned int index) {
         free(first_node_ptr);
     }
     else {
+        // Removing node at the given index
         struct Node *temp = locate_kth_node(int_list_ptr, index);
         locate_kth_node(int_list_ptr, index-1)->next_node_ptr = temp->next_node_ptr;
         free(temp);
@@ -117,6 +106,7 @@ void remove_list_item_at(struct IntList *int_list_ptr, unsigned int index) {
 
 
 void insert_int_list_item_at(struct IntList *int_list_ptr, unsigned int index, int value) {
+//    if index is at the end, then call append_int_list()
     if (index == int_list_ptr->size) {
         append_int_list(int_list_ptr, value);
     }
@@ -128,14 +118,13 @@ void insert_int_list_item_at(struct IntList *int_list_ptr, unsigned int index, i
 
     }
     else {
+//        insert at given index
             struct Node *temp = new_node(value, locate_kth_node(int_list_ptr, index));
-            temp->next_node_ptr = locate_kth_node(int_list_ptr, index);
+//            temp->next_node_ptr = locate_kth_node(int_list_ptr, index);
             locate_kth_node(int_list_ptr, index - 1)->next_node_ptr = temp;
 //        int_list_ptr->tail_node_ptr = locate_kth_node(int_list_ptr, index);
-        ++int_list_ptr->size;
+            ++int_list_ptr->size;
         }
-    // TODO
-//    ++int_list_ptr->size;
 }
 
 
@@ -145,12 +134,12 @@ unsigned int int_list_size(const struct IntList *int_list_ptr) {
 
 
 struct Node *locate_kth_node(const struct IntList *int_list_ptr, unsigned int k) {
+//    Returning the desired node in the link list
     struct Node * node_ptr = int_list_ptr->head_node_ptr;
     for (unsigned int i = 0; i < k; i++) {
         node_ptr = node_ptr->next_node_ptr;
     }
     return node_ptr;
-    // TODO
      }
 
 
@@ -159,12 +148,8 @@ static struct Node *new_node(int value, struct Node *next_node_ptr) {
     // Get a new node from the heap and set its value and next node pointer.
     struct Node *node_ptr = (struct Node *)malloc(sizeof(struct Node));
     node_ptr->value = value;
-    // ????? Not sure on this one
-    // TODO
     node_ptr->next_node_ptr = next_node_ptr;
     return node_ptr;
-
-    // TODO
 }
 
 
