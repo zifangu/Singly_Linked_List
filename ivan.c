@@ -34,16 +34,18 @@ void init_int_list(struct IntList *int_list_ptr) {
 
 void destroy_int_list(struct IntList *int_list_ptr) {
     // Free each node in the chain.
-    struct Node* temp = int_list_ptr->head_node_ptr;
-    while (temp->next_node_ptr != NULL) {
+    if (int_list_ptr->head_node_ptr != NULL) {
+        struct Node *temp = int_list_ptr->head_node_ptr;
+        while (temp->next_node_ptr != NULL) {
+            int_list_ptr->head_node_ptr = NULL;
+            temp = temp->next_node_ptr;
+            int_list_ptr->head_node_ptr = temp;
+        }
         int_list_ptr->head_node_ptr = NULL;
-        temp = temp->next_node_ptr;
-        int_list_ptr->head_node_ptr = temp;
+        int_list_ptr->size = 0;
+        free(temp);
     }
-    int_list_ptr->head_node_ptr = NULL;
     int_list_ptr->tail_node_ptr = NULL;
-    int_list_ptr->size = 0;
-    free(temp);
 
     // TODO
 
@@ -54,7 +56,6 @@ void destroy_int_list(struct IntList *int_list_ptr) {
 
 void append_int_list(struct IntList *int_list_ptr, int value) {
     // value off by 1. fresh_node->value is not updated.
-
 
     // Add a new node to the end of the chain, updating the tail node ptr.
     if (int_list_ptr->head_node_ptr == NULL) {
@@ -108,8 +109,10 @@ void remove_list_item_at(struct IntList *int_list_ptr, unsigned int index) {
         struct Node *temp = locate_kth_node(int_list_ptr, index);
         locate_kth_node(int_list_ptr, index-1)->next_node_ptr = temp->next_node_ptr;
         free(temp);
+
     }
     --int_list_ptr->size;
+
 }
 
 
@@ -121,15 +124,18 @@ void insert_int_list_item_at(struct IntList *int_list_ptr, unsigned int index, i
         // insert at the front
         struct Node *node_ptr = new_node(value, int_list_ptr->head_node_ptr);
         int_list_ptr->head_node_ptr = node_ptr;
+        ++int_list_ptr->size;
 
     }
     else {
-        struct Node* temp = new_node(value, locate_kth_node(int_list_ptr, index));
-        temp->next_node_ptr = locate_kth_node(int_list_ptr, index);
-        locate_kth_node(int_list_ptr, index - 1)->next_node_ptr = temp;
+            struct Node *temp = new_node(value, locate_kth_node(int_list_ptr, index));
+            temp->next_node_ptr = locate_kth_node(int_list_ptr, index);
+            locate_kth_node(int_list_ptr, index - 1)->next_node_ptr = temp;
 //        int_list_ptr->tail_node_ptr = locate_kth_node(int_list_ptr, index);
-    }
+        ++int_list_ptr->size;
+        }
     // TODO
+//    ++int_list_ptr->size;
 }
 
 
@@ -143,13 +149,10 @@ struct Node *locate_kth_node(const struct IntList *int_list_ptr, unsigned int k)
     for (unsigned int i = 0; i < k; i++) {
         node_ptr = node_ptr->next_node_ptr;
     }
-    if(node_ptr != NULL) {
-        return node_ptr;
-    } else {
-
-    }
+    return node_ptr;
     // TODO
-}
+     }
+
 
 
 static struct Node *new_node(int value, struct Node *next_node_ptr) {
