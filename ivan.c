@@ -97,11 +97,11 @@ void remove_list_item_at(struct IntList *int_list_ptr, unsigned int index) {
         printf("Before removing the item at index %u:\n", index);
         print_int_list(int_list_ptr);
     }
-    if (index == 0) {
+    if (index == 0 && int_list_ptr->head_node_ptr != NULL) {
         // Removing the first node
         struct Node *first_node_ptr = int_list_ptr->head_node_ptr;
         int_list_ptr->head_node_ptr = first_node_ptr->next_node_ptr;
-        int_list_ptr->tail_node_ptr = first_node_ptr->next_node_ptr;
+//        int_list_ptr->tail_node_ptr = first_node_ptr->next_node_ptr;
         free(first_node_ptr);
     }
     else {
@@ -121,14 +121,14 @@ void insert_int_list_item_at(struct IntList *int_list_ptr, unsigned int index, i
         // insert at the front
         struct Node *node_ptr = new_node(value, int_list_ptr->head_node_ptr);
         int_list_ptr->head_node_ptr = node_ptr;
-//        int_list_ptr->tail_node_ptr = node_ptr;
+
     }
     else {
         struct Node* temp = new_node(value, locate_kth_node(int_list_ptr, index));
         temp->next_node_ptr = locate_kth_node(int_list_ptr, index);
         locate_kth_node(int_list_ptr, index - 1)->next_node_ptr = temp;
+//        int_list_ptr->tail_node_ptr = locate_kth_node(int_list_ptr, index);
     }
-    ++int_list_ptr->size;
     // TODO
 }
 
@@ -148,7 +148,6 @@ struct Node *locate_kth_node(const struct IntList *int_list_ptr, unsigned int k)
     } else {
 
     }
-
     // TODO
 }
 
